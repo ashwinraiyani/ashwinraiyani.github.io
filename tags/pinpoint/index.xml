@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>pinpoint on Sanchit's blog</title><link>https://sanchitdilipjain.github.io/tags/pinpoint/</link><description>Recent content in pinpoint on Sanchit's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 18 Apr 2021 12:00:00 +0000</lastBuildDate><atom:link href="https://sanchitdilipjain.github.io/tags/pinpoint/index.xml" rel="self" type="application/rss+xml"/><item><title>Exploring Amazon Pinpoint💡</title><link>https://sanchitdilipjain.github.io/post/overview-of-amazon-pinpoint/</link><pubDate>Sun, 18 Apr 2021 12:00:00 +0000</pubDate><guid>https://sanchitdilipjain.github.io/post/overview-of-amazon-pinpoint/</guid><description>Amazon Pinpoint Introduction
+Amazon Pinpoint is an AWS service which allow to occupy the customers across multiple messaging channels. We can leverage Amazon Pinpoint to send push notifications, emails, SMS text messages, and voice messages.
+Amazon Pinpoint allows to send customer oriented messages with better experiences which strengths the association with the customers and reduce the agitate.
+Amazon Pinpoint provides functionalities such as:
+Marketing campaigns and journeys
+Transactional messages
+Analytics tools</description></item></channel></rss>

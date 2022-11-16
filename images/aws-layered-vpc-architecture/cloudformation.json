@@ -1,0 +1,1544 @@
+{
+	"AWSTemplateFormatVersion" : "2010-09-09",
+	"Description" : "This CFT will create seven layered infrastructure",
+	"Parameters" : {
+		"KeyPairName" : {
+			"Description" : "Public/private key pairs allow you to securely connect to your instance after it launches",
+			"Type" : "String"
+		},
+		"AmiId" : {
+			"Description" : "Amazon AMI",
+			"Type" : "String"
+		},
+		"InstanceType" : {
+			"Description" : "Amazon EC2 instance type for the 1st HWNode",
+			"Type" : "String"
+		}
+	},
+	"Resources" : {
+		"DMZAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.1.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "DMZPUBLICAZ1"
+					}
+				]
+			}
+		},
+		"WebAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.2.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "WEBPRIVATEAZ1"
+					}
+				]
+			}
+		},
+		"AppAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.3.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "APPPRIVATEAZ1"
+					}
+				]
+			}
+		},
+		"DBAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.4.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "DBPRIVATEAZ1"
+					}
+				]
+			}
+		},
+		"AdminAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.5.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "ADMINPRIVATEAZ1"
+					}
+				]
+			}
+		},
+		"InternalELBAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.12.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "IntrenalELBPrivateAZ1"
+					}
+				]
+			}
+		},
+		"ExternalELBAZ1" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.11.0/24",
+				"AvailabilityZone" : "us-east-1c",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "ExtrenalELBPublicAZ1"
+					}
+				]
+			}
+		},
+		"DMZAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.6.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "DMZPUBLICAZ2"
+					}
+				]
+			}
+		},
+		"WebAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.7.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "WEBPRIVATEAZ2"
+					}
+				]
+			}
+		},
+		"AppAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.8.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "APPPRIVATEAZ2"
+					}
+				]
+			}
+		},
+		"DBAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.9.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "DBPRIVATEAZ2"
+					}
+				]
+			}
+		},
+		"AdminAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.10.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "ADMINPRIVATEAZ2AZ2"
+					}
+				]
+			}
+		},
+		"ExternalELBAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.13.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "ExtrenalELBPublicAZ2"
+					}
+				]
+			}
+		},
+		"InternalELBAZ2" : {
+			"Type" : "AWS::EC2::Subnet",
+			"Properties" : {
+				"CidrBlock" : "10.0.14.0/24",
+				"AvailabilityZone" : "us-east-1b",
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "IntrenalELBPrivateAZ2"
+					}
+				]
+			}
+		},
+		"HWAttach" : {
+			"Type" : "AWS::EC2::VPCGatewayAttachment",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"InternetGatewayId" : {
+					"Ref" : "HWIGW"
+				}
+			}
+		},
+		"RouteTable1AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT1-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable2AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT2-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable3AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT3-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable4AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT4-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable5AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT5-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable6AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT6-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable7AZ1" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT7-AZ1"
+					}
+				]
+			}
+		},
+		"RouteTable1AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT1-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable2AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT2-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable3AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT3-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable4AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT4-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable5AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT5-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable6AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT6-AZ2"
+					}
+				]
+			}
+		},
+		"RouteTable7AZ2" : {
+			"Type" : "AWS::EC2::RouteTable",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-RT7-AZ2"
+					}
+				]
+			}
+		},
+		"route1AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "HWIGW",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable1AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"GatewayId" : {
+					"Ref" : "HWIGW"
+				}
+			}
+		},
+		"route1AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "HWIGW",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable1AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"GatewayId" : {
+					"Ref" : "HWIGW"
+				}
+			}
+		},
+		"route6AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "HWIGW",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable6AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"GatewayId" : {
+					"Ref" : "HWIGW"
+				}
+			}
+		},
+		"route6AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "HWIGW",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable6AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"GatewayId" : {
+					"Ref" : "HWIGW"
+				}
+			}
+		},
+		"route4AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable4AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route4AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable4AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route2AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable2AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route2AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable2AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route3AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable3AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route3AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable3AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route5AZ1" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable5AZ1"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"route5AZ2" : {
+			"Type" : "AWS::EC2::Route",
+			"DependsOn" : "NAT",
+			"Properties" : {
+				"RouteTableId" : {
+					"Ref" : "RouteTable5AZ2"
+				},
+				"DestinationCidrBlock" : "0.0.0.0/0",
+				"InstanceId" : {
+					"Ref" : "NAT"
+				}
+			}
+		},
+		"DMZAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "DMZAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable1AZ1"
+				}
+			}
+		},
+		"DMZAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "DMZAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable1AZ2"
+				}
+			}
+		},
+		"ExternalELBssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "ExternalELBAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable6AZ1"
+				}
+			}
+		},
+		"ExternalELBAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "ExternalELBAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable6AZ2"
+				}
+			}
+		},
+		"APPAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "AppAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable4AZ1"
+				}
+			}
+		},
+		"APPAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "AppAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable4AZ2"
+				}
+			}
+		},
+		"WebAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "WebAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable3AZ1"
+				}
+			}
+		},
+		"WebAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "WebAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable3AZ2"
+				}
+			}
+		},
+		"InternalELBAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "InternalELBAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable7AZ1"
+				}
+			}
+		},
+		"InternalELBAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "InternalELBAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable7AZ2"
+				}
+			}
+		},
+		"DBAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "DBAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable2AZ1"
+				}
+			}
+		},
+		"ADMINAssociationAZ1" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "AdminAZ1"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable5AZ1"
+				}
+			}
+		},
+		"ADMINAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "AdminAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable5AZ2"
+				}
+			}
+		},
+		"DBAssociationAZ2" : {
+			"Type" : "AWS::EC2::SubnetRouteTableAssociation",
+			"Properties" : {
+				"SubnetId" : {
+					"Ref" : "DBAZ2"
+				},
+				"RouteTableId" : {
+					"Ref" : "RouteTable2AZ2"
+				}
+			}
+		},
+		"NATSGOutbound" : {
+			"Type" : "AWS::EC2::SecurityGroupEgress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"NATSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"AppOutbound" : {
+			"Type" : "AWS::EC2::SecurityGroupEgress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"ExternalELBOutbound" : {
+			"Type" : "AWS::EC2::SecurityGroupEgress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"WebOutbound" : {
+			"Type" : "AWS::EC2::SecurityGroupEgress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELBOutbound" : {
+			"Type" : "AWS::EC2::SecurityGroupEgress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"NATSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY DMZ SECURITY GROUP"
+			}
+		},
+		"AppSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY App SECURITY GROUP"
+			}
+		},
+		"WebSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY WEB SECURITY GROUP"
+			}
+		},
+		"DBSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY DB SECURITY GROUP"
+			}
+		},
+		"InternalELBSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY Internal ELB SECURITY GROUP"
+			}
+		},
+		"AdminSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY ADMIN SECURITY GROUP"
+			}
+		},
+		"ExternalELBSG" : {
+			"Type" : "AWS::EC2::SecurityGroup",
+			"Properties" : {
+				"VpcId" : {
+					"Ref" : "VPC"
+				},
+				"GroupDescription" : "MY External ELB SECURITY GROUP"
+			}
+		},
+		"App1Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "22",
+				"ToPort" : "22",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"App2Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "80",
+				"ToPort" : "80",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"App4Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "8080",
+				"ToPort" : "8080",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"App3Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "443",
+				"ToPort" : "443",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"App5Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9200",
+				"ToPort" : "9200",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"App6Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "5601",
+				"ToPort" : "5601",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"AppSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"WebInbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "22",
+				"ToPort" : "22",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"Web2Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "80",
+				"ToPort" : "80",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"Web4Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "8080",
+				"ToPort" : "8080",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"Web3Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "443",
+				"ToPort" : "443",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"Web6Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9200",
+				"ToPort" : "9200",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"Web7Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "5601",
+				"ToPort" : "5601",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"WebSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"eELB2Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "80",
+				"ToPort" : "80",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"eELB4Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "8080",
+				"ToPort" : "8080",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"eELB6Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "443",
+				"ToPort" : "443",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"eELB8Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "5601",
+				"ToPort" : "5601",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"eELB9Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9200",
+				"ToPort" : "9200",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"ExternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB2Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "80",
+				"ToPort" : "80",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB4Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "8080",
+				"ToPort" : "8080",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB6Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "443",
+				"ToPort" : "443",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB8Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "5601",
+				"ToPort" : "5601",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB9Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9200",
+				"ToPort" : "9200",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB10Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9301",
+				"ToPort" : "9301",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"iELB11Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "9292",
+				"ToPort" : "9292",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"InternalELBSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"NATSG1Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "22",
+				"ToPort" : "22",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"NATSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"NATSG2Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "80",
+				"ToPort" : "80",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"NATSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"NATSG3Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "443",
+				"ToPort" : "443",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"NATSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "0.0.0.0/0"
+			}
+		},
+		"NATSG4Inbound" : {
+			"Type" : "AWS::EC2::SecurityGroupIngress",
+			"Properties" : {
+				"IpProtocol" : "tcp",
+				"FromPort" : "1",
+				"ToPort" : "65535",
+				"GroupId" : {
+					"Fn::GetAtt" : [
+						"NATSG",
+						"GroupId"
+					]
+				},
+				"CidrIp" : "10.0.0.0/16"
+			}
+		},
+		"HWIGW" : {
+			"Type" : "AWS::EC2::InternetGateway",
+			"Properties" : {
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-IGW"
+					}
+				]
+			}
+		},
+		"VPC" : {
+			"Type" : "AWS::EC2::VPC",
+			"Properties" : {
+				"CidrBlock" : "10.0.0.0/16",
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-VPC"
+					}
+				]
+			}
+		},
+		"CustomRole" : {
+			"Type" : "AWS::IAM::Role",
+			"Properties" : {
+				"AssumeRolePolicyDocument" : {
+					"Version" : "2012-10-17",
+					"Statement" : [{
+							"Effect" : "Allow",
+							"Principal" : {
+								"Service" : ["ec2.amazonaws.com"]
+							},
+							"Action" : ["sts:AssumeRole"]
+						}
+					]
+				},
+				"Path" : "/",
+				"Policies" : [{
+						"PolicyName" : "MyCustomRole",
+						"PolicyDocument" : {
+							"Version" : "2012-10-17",
+							"Statement" : [{
+									"Action" : [
+										"kinesis:*",
+										"s3:*",
+										"swf:*",
+										"dynamodb:*",
+										"cloudwatch:*",
+										"ec2:*",
+										"cloudformation:*"
+									],
+									"Effect" : "Allow",
+									"Resource" : "*"
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+		"IamInstanceProfile" : {
+			"Type" : "AWS::IAM::InstanceProfile",
+			"Properties" : {
+				"Path" : "/",
+				"Roles" : [{
+						"Ref" : "CustomRole"
+					}
+				]
+			}
+		},
+		"NAT" : {
+			"Type" : "AWS::EC2::Instance",
+			"Properties" : {
+				"ImageId" : "ami-184dc970",
+				"SourceDestCheck" : "false",
+				"InstanceType" : "t2.micro",
+				"NetworkInterfaces" : [{
+						"GroupSet" : [{
+								"Ref" : "NATSG"
+							}
+						],
+						"AssociatePublicIpAddress" : "true",
+						"DeviceIndex" : "0",
+						"SubnetId" : {
+							"Ref" : "DMZAZ1"
+						},
+						"Description" : "eth0"
+					}
+				],
+				"Tags" : [{
+						"Key" : "Name",
+						"Value" : "HW-NAT"
+					}
+				],
+				"KeyName" : {
+					"Ref" : "KeyPairName"
+				}
+			}
+		}
+	},
+	"Outputs" : {
+		"VPCID" : {
+			"Value" : {
+				"Ref" : "VPC"
+			},
+			"Description" : "VPC ID of newly created VPC"
+		},
+		"DMZAZ1subnet" : {
+			"Value" : {
+				"Ref" : "DMZAZ1"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"DMZAZ2subnet" : {
+			"Value" : {
+				"Ref" : "DMZAZ2"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"DBAZ1subnet" : {
+			"Value" : {
+				"Ref" : "DBAZ1"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"DBAZ2subnet" : {
+			"Value" : {
+				"Ref" : "DBAZ2"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"ADMINAZ1subnet" : {
+			"Value" : {
+				"Ref" : "AdminAZ1"
+			},
+			"Description" : "This is Private subnet"
+		},
+		"ADMINAZ2subnet" : {
+			"Value" : {
+				"Ref" : "AdminAZ2"
+			},
+			"Description" : "This is Private subnet"
+		},
+		"WEBAZ1subnet" : {
+			"Value" : {
+				"Ref" : "WebAZ1"
+			},
+			"Description" : "This is WEB private subnet"
+		},
+		"WEBAZ2subnet" : {
+			"Value" : {
+				"Ref" : "WebAZ2"
+			},
+			"Description" : "This is WEB private subnet"
+		},
+		"APPAZ1subnet" : {
+			"Value" : {
+				"Ref" : "AppAZ1"
+			},
+			"Description" : "This is private subnet"
+		},
+		"APPAZ2subnet" : {
+			"Value" : {
+				"Ref" : "AppAZ2"
+			},
+			"Description" : "This is private subnet"
+		},
+		"ExternalELBAZ1subnet" : {
+			"Value" : {
+				"Ref" : "ExternalELBAZ1"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"ExternalELBAZ2subnet" : {
+			"Value" : {
+				"Ref" : "ExternalELBAZ2"
+			},
+			"Description" : "This is Public subnet"
+		},
+		"InternalELBAZ1subnet" : {
+			"Value" : {
+				"Ref" : "InternalELBAZ1"
+			},
+			"Description" : "This is private subnet"
+		},
+		"InternalELBAZ2subnet" : {
+			"Value" : {
+				"Ref" : "InternalELBAZ2"
+			},
+			"Description" : "This is private subnet"
+		},
+		"DMZsecuritygroup" : {
+			"Value" : {
+				"Ref" : "NATSG"
+			},
+			"Description" : "This is DMZ SecurityGroup"
+		},
+		"DBsecuritygroup" : {
+			"Value" : {
+				"Ref" : "DBSG"
+			},
+			"Description" : "This is DB SecurityGroup"
+		},
+		"ADMINsecuritygroup" : {
+			"Value" : {
+				"Ref" : "AdminSG"
+			},
+			"Description" : "This is ADMIN SecurityGroup"
+		},
+		"WEBsecuritygroup" : {
+			"Value" : {
+				"Ref" : "WebSG"
+			},
+			"Description" : "This is WEB SecurityGroup"
+		},
+		"AppSecuritygroup" : {
+			"Value" : {
+				"Ref" : "AppSG"
+			},
+			"Description" : "This is APP SecurityGroup"
+		},
+		"ExternalELBsecuritygroup" : {
+			"Value" : {
+				"Ref" : "ExternalELBSG"
+			},
+			"Description" : "This is ExeternalELB SecurityGroup"
+		},
+		"InternalELBsecuritygroup" : {
+			"Value" : {
+				"Ref" : "InternalELBSG"
+			},
+			"Description" : "This is InternalELBAZ SecurityGroup"
+		},
+		"NATIP" : {
+			"Value" : {
+				"Fn::GetAtt" : [
+					"NAT",
+					"PublicIp"
+				]
+			},
+			"Description" : "Public IP Address of NAT Instance"
+		},
+		"CustomRole" : {
+			"Value" : {
+				"Ref" : "CustomRole"
+			},
+			"Description" : "This is CustomRole"
+		},
+		"IamInstanceProfile" : {
+			"Value" : {
+				"Ref" : "IamInstanceProfile"
+			},
+			"Description" : "This is IamInstanceProfile"
+		}
+	}
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cloudtrail on Sanchit's blog</title><link>https://sanchitdilipjain.github.io/tags/cloudtrail/</link><description>Recent content in cloudtrail on Sanchit's blog</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 09 Mar 2021 12:00:00 +0000</lastBuildDate><atom:link href="https://sanchitdilipjain.github.io/tags/cloudtrail/index.xml" rel="self" type="application/rss+xml"/><item><title>Query Insights from AWS CloudTrail Logs with AWS Athena 🔎</title><link>https://sanchitdilipjain.github.io/post/integrating-cloudtrail-logs-with-athena/</link><pubDate>Tue, 09 Mar 2021 12:00:00 +0000</pubDate><guid>https://sanchitdilipjain.github.io/post/integrating-cloudtrail-logs-with-athena/</guid><description>Fetch Insights from AWS CloudTrail Logs with Athena Introduction
+Leveraging AWS Athena with CloudTrail logs is an impactful method to refine your insights of AWS service activity. For example, you can leverage queries to detect findings and further trace activity by attributes, like source IP address or user etc
+Below are the steps we need to follow to implement this tutorial
+Configure S3 bucket
+Navigate to S3 console
+Select Create bucket button</description></item></channel></rss>

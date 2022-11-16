@@ -1,0 +1,85 @@
+{
+"AWSTemplateFormatVersion":"2010-09-09",
+  "Description":"This template configures the IAMRoleForLambda, IAMRoleForMediaConvert, and S3Bucket",
+  "Resources" : {  
+    "IAMRoleForLambda": {
+     "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+          {
+          "Effect": "Allow",
+          "Principal": {"Service": ["lambda.amazonaws.com"]},
+          "Action": "sts:AssumeRole"
+          }
+          ]
+        },
+        "Path": "/",
+        "Policies": [{
+          "PolicyName": "root",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [{ "Action": [ "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents" ], "Resource": "*", "Effect": "Allow", "Sid": "Logging" }, { "Action": [ "iam:PassRole" ], "Resource": "*", "Condition": {"StringLike": {"iam:PassedToService": ["mediaconvert.amazonaws.com"]}}, "Effect": "Allow", "Sid": "PassRole" }, { "Action": [ "mediaconvert:*" ], "Resource": [ "*" ], "Effect": "Allow", "Sid": "MediaConvertService" }]
+          }
+        }]
+      }
+    },
+    "IAMRoleForMediaConvert": {
+     "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+          {
+          "Effect": "Allow",
+          "Principal": {"Service": ["mediaconvert.amazonaws.com"]},
+          "Action": "sts:AssumeRole"
+          }
+          ]
+        },
+        "Path": "/",
+        "Policies": [{
+          "PolicyName": "root",
+          "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [{ "Action": [ "s3:*" ], "Resource": [ "*" ], "Effect": "Allow", "Sid": "MediaConvertService" }]
+          }
+        }]
+      }
+    },
+    "S3Bucket": {
+        "Type": "AWS::S3::Bucket",
+        "Properties": {
+            "CorsConfiguration": {
+                "CorsRules": [
+                    {
+                        "AllowedOrigins": ["*"],
+                        "AllowedMethods": ["POST","GET","PUT","DELETE","HEAD"],
+                        "AllowedHeaders": ["*"]
+                    }]
+                }
+            }
+        }
+  },
+  "Outputs": {
+    "BucketName": {
+        "Description": "Video storage bucket",
+        "Value": {
+             "Ref": "S3Bucket"
+            }
+    },
+    "IAMRoleForLambda": {
+        "Description": "IAM role for Lambda",
+        "Value": {
+            "Ref": "IAMRoleForLambda"
+            }
+    },
+    "IAMRoleForMediaConvert": {
+        "Description": "IAM role for MediaConvert",
+        "Value": {
+            "Ref": "IAMRoleForMediaConvert"
+            }
+        }
+    }
+}
